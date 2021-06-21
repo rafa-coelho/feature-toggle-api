@@ -85,7 +85,7 @@ routes.get('/ambiente/:id', async (req, res) => {
     
     if (ambiente === null) {
         resp.errors.push({
-            msg: 'Ambiente não encontrada!'
+            msg: 'Ambiente não encontrado!'
         });
         return res.status(404).send(resp);
     }
@@ -108,7 +108,7 @@ routes.put('/ambiente/:id', async (req, res) => {
     
     if (ambienteGet === null) {
         resp.errors.push({
-            msg: 'Ambiente não encontrada!'
+            msg: 'Ambiente não encontrado!'
         });
         return res.status(404).send(resp);
     }
@@ -160,7 +160,7 @@ routes.delete('/ambiente/:id', async (req, res) => {
 
     if (ambienteGet === null) {
         resp.errors.push({
-            msg: 'Ambiente não encontrada!'
+            msg: 'Ambiente não encontrado!'
         });
         return res.status(404).send(resp);
     }
