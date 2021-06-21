@@ -1,7 +1,7 @@
 exports.up = async(database, utf8 = false) => {
-    return database.schema.hasTable('status_feature').then((exists) => {
+    return database.schema.hasTable('feature_ambiente').then((exists) => {
         if (!exists) {
-            return database.schema.createTable('status_feature', table => {
+            return database.schema.createTable('feature_ambiente', table => {
                 if (utf8) { table.collate('utf8_unicode_ci'); }
 
                 table.string('id', 80).notNullable();
@@ -21,6 +21,6 @@ exports.up = async(database, utf8 = false) => {
 
 exports.down = async(database) => {
     return database.schema.hasTable('ambiente').then((exists) => {
-        if (exists) { return database.schema.dropTable('status_feature'); }
+        if (exists) { return database.schema.dropTable('feature_ambiente'); }
     });
 };

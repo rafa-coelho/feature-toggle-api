@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Util from '../System/Util';
 import Feature, { IFeature } from '../classes/Feature';
-import StatusFeature, { IStatusFeature } from '../classes/StatusFeature';
+import FeatureAmbiente, { IFeatureAmbiente } from '../classes/FeatureAmbiente';
 import Ambiente from '../classes/Ambiente';
 
 
@@ -47,7 +47,7 @@ routes.post(`/feature`, async (req, res) => {
     }
 
     body.ambientes.forEach(async ambiente => {
-        const ambientePayload : IStatusFeature = {
+        const ambientePayload : IFeatureAmbiente = {
             id: Util.GUID(),
             feature: payload.id,
             alvo: ambiente.alvo,
@@ -55,7 +55,7 @@ routes.post(`/feature`, async (req, res) => {
             ambiente: (await Ambiente.GetFirst(`codigo = '${ambiente.codigo}'`)).id
         };
 
-        StatusFeature.Create(ambientePayload);
+        FeatureAmbiente.Create(ambientePayload);
     });
 
     resp.status = 1;
@@ -80,7 +80,7 @@ routes.get(`/feature`, async (req, res) => {
     const features = <IFeature[]> await Feature.Get(where, order_by, limit);
 
     for (const i in features)
-        features[i].ambientes = (<IStatusFeature[]> await StatusFeature.Get(`feature = '${features[i].id}'`));
+        features[i].ambientes = (<IFeatureAmbiente[]> await FeatureAmbiente.Get(`feature = '${features[i].id}'`));
         
     res.set('X-TOTAL-COUNT', await Feature.Count(where));
 
@@ -107,7 +107,7 @@ routes.get('/feature/:id', async (req, res) => {
         return res.status(404).send(resp);
     }
 
-    feature.ambientes = <IStatusFeature[]> await StatusFeature.Get(`feature = '${feature.id}'`);
+    feature.ambientes = <IFeatureAmbiente[]> await FeatureAmbiente.Get(`feature = '${feature.id}'`);
 
     resp.status = 1;
     resp.data = feature;

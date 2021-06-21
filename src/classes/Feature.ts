@@ -1,13 +1,13 @@
 import Classes from '../System/Classes';
 import Ambiente, { IAmbiente } from './Ambiente';
-import { IStatusFeature } from './StatusFeature';
+import { IFeatureAmbiente } from './FeatureAmbiente';
 
 export interface IFeature {
     id: string;
     titulo: string;
     nome: string;
     descricao: string;
-    ambientes? : IStatusFeature[];
+    ambientes? : IFeatureAmbiente[];
 }
 
 class Feature extends Classes {

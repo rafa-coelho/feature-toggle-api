@@ -1,6 +1,6 @@
 import Classes from '../System/Classes';
 
-export interface IStatusFeature {
+export interface IFeatureAmbiente {
     id: string;
     feature: string;
     ambiente: string;
@@ -9,8 +9,8 @@ export interface IStatusFeature {
     ambiente_codigo?: string;
 }
 
-class StatusFeature extends Classes {
-    public static table = 'status_feature';
+class FeatureAmbiente extends Classes {
+    public static table = 'feature_ambiente';
     public static fields = [
         { name: 'id', type: 'string', required: false },
         { name: 'feature', type: 'string', required: true },
@@ -20,4 +20,4 @@ class StatusFeature extends Classes {
     ];
 }
 
-export default StatusFeature;
+export default FeatureAmbiente;
