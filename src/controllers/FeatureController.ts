@@ -41,7 +41,7 @@ routes.post(`/feature`, async (req, res) => {
     const create = await Feature.Create(payload);
     if(create.status !== 1){
         resp.errors.push({
-            msg: "Erro ao criar frature"
+            msg: "Erro ao criar feature"
         });
         return res.status(500).send(create);
     }
