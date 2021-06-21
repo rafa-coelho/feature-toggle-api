@@ -4,8 +4,8 @@ module.exports = {
         node: true
     },
     extends: [
-        'plugin:@typescript-eslint/recommended',
-        'standard'
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended'
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -22,7 +22,6 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
-        'space-before-function-paren': ['error', 'always'],
         camelcase: 'off'
     }
 };
