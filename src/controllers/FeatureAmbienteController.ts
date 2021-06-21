@@ -69,7 +69,7 @@ routes.post(`/feature/ambiente`, async (req, res) => {
 });
 
 routes.get(`/feature/:feature/ambiente`, async (req, res) => {
-    const { query, params } = req;
+    const { params } = req;
     const resp = {
         status: 0,
         msg: '',
@@ -97,7 +97,7 @@ routes.get(`/feature/:feature/ambiente`, async (req, res) => {
 });
 
 routes.get(`/feature-ambiente/:id`, async (req, res) => {
-    const { query, params } = req;
+    const { params } = req;
     const resp = {
         status: 0,
         msg: '',
@@ -117,6 +117,58 @@ routes.get(`/feature-ambiente/:id`, async (req, res) => {
     
     resp.status = 1;
     resp.data = featureAmbiente;
+    res.send(resp);
+});
+
+routes.put('/feature-ambiente/:id', async (req, res) => {
+    const { params, body } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const featureAmbiente = <IFeatureAmbiente> await FeatureAmbiente.GetFirst(`id = '${params.id}'`);
+    
+    if (featureAmbiente === null) {
+        resp.errors.push({
+            msg: 'Feature não encontrada!'
+        });
+        return res.status(404).send(resp);
+    }
+
+    const data : { [k: string] : any} = {};
+    
+    const proibidos = [ 'id', 'ambiente', 'feature' ];
+    let edit = false;
+    
+    FeatureAmbiente.fields.forEach(campo => {
+        if (body[campo.name] !== undefined && !proibidos.includes(campo.name)) {
+            data[campo.name] = body[campo.name];
+            edit = true;
+        }
+    });
+
+    if (!edit) {
+        resp.errors.push({
+            msg: 'Nada para editar'
+        });
+        return res.status(400).send(resp);
+    }
+
+    const update = await FeatureAmbiente.Update(data, `id = '${params.id}'`);
+
+    if (update.status !== 1) {
+        resp.errors.push({
+            msg: 'Não foi possivel atualizar'
+        });
+
+        return res.status(500).send(resp);
+    }
+
+    resp.status = 1;
+    resp.msg = 'Atualizado com sucesso';
     res.send(resp);
 });
 
