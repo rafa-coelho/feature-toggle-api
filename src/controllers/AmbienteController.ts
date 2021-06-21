@@ -63,12 +63,35 @@ routes.get(`/ambiente`, async (req, res) => {
     const order_by = String((query.order_by) ? query.order_by : '');
     const limit = String((query.limit) ? query.limit : '');
 
-    const assinaturas = <IAmbiente[]> await Ambiente.Get(where, order_by, limit);
+    const ambientes = <IAmbiente[]> await Ambiente.Get(where, order_by, limit);
 
     res.set('X-TOTAL-COUNT', await Ambiente.Count(where));
 
     resp.status = 1;
-    resp.data = assinaturas;
+    resp.data = ambientes;
+    res.send(resp);
+});
+
+routes.get('/ambiente/:id', async (req, res) => {
+    const { params } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const ambiente = <IAmbiente> await Ambiente.GetFirst(`id = '${params.id}' OR codigo = '${params.id}'`);
+    
+    if (ambiente === null) {
+        resp.errors.push({
+            msg: 'Ambiente não encontrada!'
+        });
+        return res.status(404).send(resp);
+    }
+
+    resp.status = 1;
+    resp.data = ambiente;
     res.send(resp);
 });
 
