@@ -99,14 +99,15 @@ routes.get('/feature/:id', async (req, res) => {
     };
 
     const feature = <IFeature> await Feature.GetFirst(`id = '${params.id}'`);
-    feature.ambientes = <IStatusFeature[]> await StatusFeature.Get(`feature = '${feature.id}'`);
-    
+
     if (feature === null) {
         resp.errors.push({
             msg: 'Feature não encontrada!'
         });
         return res.status(404).send(resp);
     }
+
+    feature.ambientes = <IStatusFeature[]> await StatusFeature.Get(`feature = '${feature.id}'`);
 
     resp.status = 1;
     resp.data = feature;
@@ -162,6 +163,39 @@ routes.put('/feature/:id', async (req, res) => {
 
     resp.status = 1;
     resp.msg = 'Atualizado com sucesso';
+    res.send(resp);
+});
+
+routes.delete('/feature/:id', async (req, res) => {
+    const { params } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const featureGet = <IFeature> await Feature.GetFirst(`id = '${params.id}'`);
+
+    if (featureGet === null) {
+        resp.errors.push({
+            msg: 'Feature não encontrada!'
+        });
+        return res.status(404).send(resp);
+    }
+
+    const del = await Feature.Delete(`id = '${params.id}'`);
+
+    if (del.status !== 1) {
+        resp.errors.push({
+            msg: 'Não foi possivel excluir'
+        });
+
+        return res.status(500).send(resp);
+    }
+
+    resp.status = 1;
+    resp.msg = 'Excluido com sucesso';
     res.send(resp);
 });
 
