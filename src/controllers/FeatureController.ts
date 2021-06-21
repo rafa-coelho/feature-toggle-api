@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Util from '../System/Util';
 import Feature, { IFeature } from '../classes/Feature';
 import StatusFeature, { IStatusFeature } from '../classes/StatusFeature';
-import Ambiente, { IAmbiente } from '../classes/Ambiente';
+import Ambiente from '../classes/Ambiente';
 
 
 const routes = Router();
@@ -86,6 +86,30 @@ routes.get(`/feature`, async (req, res) => {
 
     resp.status = 1;
     resp.data = features;
+    res.send(resp);
+});
+
+routes.get('/feature/:id', async (req, res) => {
+    const { params } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const feature = <IFeature> await Feature.GetFirst(`id = '${params.id}'`);
+    feature.ambientes = <IStatusFeature[]> await StatusFeature.Get(`feature = '${feature.id}'`);
+    
+    if (feature === null) {
+        resp.errors.push({
+            msg: 'Feature não encontrada!'
+        });
+        return res.status(404).send(resp);
+    }
+
+    resp.status = 1;
+    resp.data = feature;
     res.send(resp);
 });
 
