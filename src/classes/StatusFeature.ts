@@ -6,6 +6,7 @@ export interface IStatusFeature {
     ambiente: string;
     alvo: string;
     status: number;
+    ambiente_codigo?: string;
 }
 
 class StatusFeature extends Classes {

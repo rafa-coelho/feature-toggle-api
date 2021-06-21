@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Util from '../System/Util';
 import Feature, { IFeature } from '../classes/Feature';
 import StatusFeature, { IStatusFeature } from '../classes/StatusFeature';
-import Ambiente from '../classes/Ambiente';
+import Ambiente, { IAmbiente } from '../classes/Ambiente';
 
 
 const routes = Router();
@@ -64,5 +64,29 @@ routes.post(`/feature`, async (req, res) => {
     res.send(resp);
 });
 
+routes.get(`/feature`, async (req, res) => {
+    const { query } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const where = (query.where) ? Util.utf8Decode(unescape(String(query.where))) : '';
+    const order_by = String((query.order_by) ? query.order_by : '');
+    const limit = String((query.limit) ? query.limit : '');
+
+    const features = <IFeature[]> await Feature.Get(where, order_by, limit);
+
+    for (const i in features)
+        features[i].ambientes = (<IStatusFeature[]> await StatusFeature.Get(`feature = '${features[i].id}'`));
+        
+    res.set('X-TOTAL-COUNT', await Feature.Count(where));
+
+    resp.status = 1;
+    resp.data = features;
+    res.send(resp);
+});
 
 export default routes;
