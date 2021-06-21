@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 
 import routes from './controllers';
-import Sessao from './classes/Sessao';
 
 class App {
     public express: express.Application;
@@ -24,7 +23,6 @@ class App {
             next();
         });
 
-        this.express.use(Sessao.ValidarPermissao);
     }
 
     private routes (): void {

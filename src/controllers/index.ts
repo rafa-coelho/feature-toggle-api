@@ -1,8 +1,10 @@
 import { Router } from 'express';
 
+import AmbienteController from './AmbienteController';
+
 const routes = Router();
 
-[].forEach((route) => {
+[ AmbienteController ].forEach((route) => {
     routes.stack = [...routes.stack, ...route.stack];
 });
 
