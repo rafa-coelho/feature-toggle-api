@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Util from '../System/Util';
 import Feature, { IFeature } from '../classes/Feature';
 import FeatureAmbiente, { IFeatureAmbiente } from '../classes/FeatureAmbiente';
-import Ambiente from '../classes/Ambiente';
+import Ambiente, { IAmbiente } from '../classes/Ambiente';
 
 
 const routes = Router();
@@ -196,6 +196,44 @@ routes.delete('/feature/:id', async (req, res) => {
 
     resp.status = 1;
     resp.msg = 'Excluido com sucesso';
+    res.send(resp);
+});
+
+routes.get('/feature/:feature/:ambiente', async (req, res) => {
+    const { params } = req;
+    const resp = {
+        status: 0,
+        data: null,
+        errors: []
+    };
+
+    const feature = <IFeature> await Feature.GetFirst(`id = '${params.feature}' OR nome = '${params.feature}'`);
+
+    if (feature === null) {
+        resp.errors.push({
+            msg: 'Feature não encontrada!'
+        });
+        return res.status(404).send(resp);
+    }
+    
+    const ambiente = <IAmbiente> await Ambiente.GetFirst(`id = '${params.ambiente}' or codigo = '${params.ambiente}'`);
+
+    if (ambiente === null) {
+        resp.errors.push({
+            msg: 'Ambiente não encontrada!'
+        });
+        return res.status(404).send(resp);
+    }
+
+    const featureAmbiente = <IFeatureAmbiente> await FeatureAmbiente.GetFirst(`feature = '${feature.id}' AND ambiente = '${ambiente.id}'`);
+
+    resp.status = 1;
+    resp.data = {
+        feature: feature.nome,
+        ambiente: ambiente.nome,
+        alvo: featureAmbiente.alvo,
+        status: featureAmbiente.status,
+    };
     res.send(resp);
 });
 
