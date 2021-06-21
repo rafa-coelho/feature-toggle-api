@@ -6,7 +6,12 @@ import FeatureAmbienteController from './FeatureAmbienteController';
 
 const routes = Router();
 
-[ AmbienteController, FeatureController, FeatureAmbienteController ].forEach((route) => {
+[ 
+    AmbienteController, 
+    FeatureController, 
+    FeatureAmbienteController,
+    
+].forEach((route) => {
     routes.stack = [...routes.stack, ...route.stack];
 });
 

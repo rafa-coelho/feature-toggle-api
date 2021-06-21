@@ -68,4 +68,32 @@ routes.post(`/feature/ambiente`, async (req, res) => {
     res.send(resp);
 });
 
+routes.get(`/feature/:feature/ambiente`, async (req, res) => {
+    const { query, params } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const feature = <IFeature> await Feature.GetFirst(`id = '${params.feature}'`);
+    if(feature === null){
+        resp.errors.push({
+            msg: "Feature não encontrada"
+        });
+        return res.status(404).send(resp);
+    }
+
+    
+    const ambientes = <IFeatureAmbiente[]> await FeatureAmbiente.Get(`feature = '${feature.id}'`);
+    for (const i in ambientes) {
+        ambientes[i].ambiente_codigo = (<IAmbiente> await Ambiente.GetFirst(`id = '${ambientes[i].ambiente}'`)).codigo;
+    }
+    
+    resp.status = 1;
+    resp.data = ambientes;
+    res.send(resp);
+});
+
 export default routes;
