@@ -96,4 +96,28 @@ routes.get(`/feature/:feature/ambiente`, async (req, res) => {
     res.send(resp);
 });
 
+routes.get(`/feature-ambiente/:id`, async (req, res) => {
+    const { query, params } = req;
+    const resp = {
+        status: 0,
+        msg: '',
+        data: null,
+        errors: []
+    };
+
+    const featureAmbiente = <IFeatureAmbiente> await FeatureAmbiente.GetFirst(`id = '${params.id}'`);
+    if(featureAmbiente === null){
+        resp.errors.push({
+            msg: "Ambiente não encontrado"
+        });
+        return res.status(404).send(resp);
+    }
+    
+    featureAmbiente.ambiente_codigo = (<IAmbiente> await Ambiente.GetFirst(`id = '${featureAmbiente.ambiente}'`)).codigo;
+    
+    resp.status = 1;
+    resp.data = featureAmbiente;
+    res.send(resp);
+});
+
 export default routes;
