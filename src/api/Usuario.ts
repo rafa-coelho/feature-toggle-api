@@ -18,8 +18,8 @@ class _Usuario {
         }
     }
 
-    static async Create(data){
-        return (await Usuario.Criar(null, process.env.AUTH_APLICACAO, { ...data, perfil: process.env.AUTH_APLICACAO_PERFIL})).data;
+    static async Create(sid, data){
+        return (await Usuario.Criar(sid, process.env.AUTH_APLICACAO, { ...data, perfil: process.env.AUTH_APLICACAO_PERFIL})).data;
     }
     
     static async Login(email, senha){
