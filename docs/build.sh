@@ -13,6 +13,8 @@ sed "s/@@DB_BASE/@@DB_BASE/g" -i .env
 
 npm i
 npm run build
+npm run migrate
+
 
 pm2 stop club7-feature-toggle-api
 pm2 start npm --name club7-feature-toggle-api -- start
