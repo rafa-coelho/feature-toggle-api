@@ -203,7 +203,9 @@ routes.get('/feature/:feature/:ambiente', async (req, res) => {
     const { params } = req;
     const resp = {
         status: 0,
-        data: null,
+        data: {
+            status: 1
+        },
         errors: []
     };
 
