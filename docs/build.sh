@@ -2,7 +2,8 @@ cd /home/deploy/apps/club7-feature-toggle-api
 
 cp .env.example .env
 
-sed "s/@@NODE_ENV/false/g" -i .env
+sed "s/@@NODE_ENV/hom/g" -i .env
+sed "s/@@NODE_PORT/3001/g" -i .env
 
 sed "s/@@DB_HOST/@@DB_HOST/g" -i .env
 sed "s/@@DB_USER/@@DB_USER/g" -i .env
