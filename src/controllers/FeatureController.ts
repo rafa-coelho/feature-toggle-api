@@ -204,7 +204,7 @@ routes.get('/feature/:feature/:ambiente', async (req, res) => {
     const resp = {
         status: 0,
         data: {
-            status: 1
+            status: 0
         },
         errors: []
     };
