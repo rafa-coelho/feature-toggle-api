@@ -9,8 +9,7 @@ const routes = Router();
 [ 
     AmbienteController, 
     FeatureController, 
-    FeatureAmbienteController,
-    
+    FeatureAmbienteController 
 ].forEach((route) => {
     routes.stack = [...routes.stack, ...route.stack];
 });
