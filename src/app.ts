@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 
 import routes from './controllers';
-import Sessao from './api/Sessao';
 
 class App {
     public express: express.Application;
@@ -23,7 +22,6 @@ class App {
             res.header('Access-Control-Expose-Headers', '*');
             next();
         });
-        this.express.use(Sessao.ValidarPermissao);
 
     }
 
