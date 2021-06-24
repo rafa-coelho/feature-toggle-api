@@ -1,6 +1,6 @@
 import app from './app';
 
-// require('dotenv').config();
+require('dotenv').config();
 
 const port = (process.env.NODE_PORT) ? process.env.NODE_PORT : 3333;
 

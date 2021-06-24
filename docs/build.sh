@@ -10,6 +10,8 @@ sed "s/@@DB_USER/@@DB_USER/g" -i .env
 sed "s/@@DB_PASS/@@DB_PASS/g" -i .env
 sed "s/@@DB_BASE/@@DB_BASE/g" -i .env
 
+export $(grep -v '^#' .env | xargs)
+
 npm i
 npm run build
 
