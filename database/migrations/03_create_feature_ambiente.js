@@ -4,9 +4,9 @@ exports.up = async(database, utf8 = false) => {
             return database.schema.createTable('feature_ambiente', table => {
                 if (utf8) { table.collate('utf8_unicode_ci'); }
 
-                table.string('id', 80).notNullable();
-                table.string('feature', 45).notNullable();
-                table.string('ambiente', 45).notNullable();
+                table.string('id', 50).primary();
+                table.string('feature', 50).notNullable();
+                table.string('ambiente', 50).notNullable();
                 table.string('alvo', 80);
                 table.integer('status').defaultTo(1);
 
